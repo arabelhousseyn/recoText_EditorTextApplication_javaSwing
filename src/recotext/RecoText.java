@@ -43,14 +43,22 @@ static JLabel forDate = new JLabel();
         JTextArea text = new JTextArea();
        
         JScrollPane pane = new JScrollPane(text);
-        JPopupMenu popupMenu  = new JPopupMenu();
+        JPopupMenu pop  = new JPopupMenu();
         
         JMenuItem copy = new JMenuItem("copy");
+        JMenuItem paste = new JMenuItem("paste");
+        JMenuItem cut = new JMenuItem("cut");
+        JMenuItem select = new JMenuItem("select");
+        JMenuItem remove = new JMenuItem("remove");
         
-        popupMenu.add(copy);
-        text.add(popupMenu);
+        pop.add(copy);
+        pop.add(paste);
+        pop.add(cut);
+        pop.add(select);
+        pop.addSeparator();
+        pop.add(remove);
         
-
+        text.add(pop);
         
         win.setLayout(null);
         JTabbedPane tab = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -177,6 +185,46 @@ static JLabel forDate = new JLabel();
                }
                } 
             }
+        });
+        copy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                text.copy();
+            }
+        });
+        paste.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                text.paste();
+            }
+        });
+        cut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               text.cut();
+            }
+        });
+        select.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                text.selectAll();
+            }
+        });
+        remove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                text.removeAll();
+            }
+        });
+        text.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e)
+                {
+                    if(SwingUtilities.isRightMouseButton(e))
+                {
+                    pop.show(text,e.getX(),e.getY());
+                }
+                }
         });
     }
 
